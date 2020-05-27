@@ -302,7 +302,7 @@ MYSQL_DATABASE=trax
 MYSQL_USER=default
 MYSQL_PASSWORD=secret
 MYSQL_PORT=3306
-MYSQL_ROOT_PASSWORD=root
+MYSQL_ROOT_PASSWORD=secret
 MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 
 ### REDIS #################################################
