@@ -14,7 +14,7 @@ APP_CODE_PATH_CONTAINER=/var/www
 APP_CODE_CONTAINER_FLAG=:cached
 
 # Choose storage path on your machine. For all storage systems
-DATA_PATH_HOST=~/.laradock/data
+DATA_PATH_HOST=~/.laradock/trax-data
 
 ### Drivers ################################################
 
@@ -99,7 +99,7 @@ WORKSPACE_INSTALL_NODE=true
 WORKSPACE_NODE_VERSION=node
 WORKSPACE_NPM_REGISTRY=
 WORKSPACE_INSTALL_PNPM=false
-WORKSPACE_INSTALL_YARN=false
+WORKSPACE_INSTALL_YARN=true
 WORKSPACE_YARN_VERSION=latest
 WORKSPACE_INSTALL_NPM_GULP=true
 WORKSPACE_INSTALL_NPM_BOWER=false
@@ -297,12 +297,12 @@ APACHE_DOCUMENT_ROOT=/var/www/
 
 ### MYSQL #################################################
 
-MYSQL_VERSION=latest
+MYSQL_VERSION=5.6
 MYSQL_DATABASE=trax
 MYSQL_USER=default
 MYSQL_PASSWORD=secret
 MYSQL_PORT=3306
-MYSQL_ROOT_PASSWORD=secret
+MYSQL_ROOT_PASSWORD=root
 MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 
 ### REDIS #################################################
