@@ -94,9 +94,9 @@
                 if(url === '/logout') {
                     axios.post(url, {}
                     ).then(response => {
-                        window.location.replace(location.protocol + '//' + location.hostname);
+                       window.location.replace(location.protocol + '//' + location.host); // Redirect to page with correct port
                     }).catch(e => {
-                        window.location.replace(location.protocol + '//' + location.hostname);
+                        window.location.replace(location.protocol + '//' + location.host);
                     })
                 } else {
                     this.$router.push(url);
