@@ -2,7 +2,7 @@
     <v-form ref="form" v-model="valid" lazy-validation>
         <v-text-field
                 v-model="year"
-                :rules="[v => !!v  || 'Item is required', v => (v && v.length === 4 && !isNaN(v)) || 'Must be 4 digit year']"
+                :rules="[v => !!v  || 'Item is required', v => (v && v.length === 4 && !isNaN(v)) || 'Must be 4 digit year', v => (v && !isNaN(v) && v >= 1886) || 'Must be a year greater than or equal to 1886']"
                 label="Year"
                 required
         ></v-text-field>

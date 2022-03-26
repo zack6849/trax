@@ -18,47 +18,10 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
-
-//////////////////////////////////////////////////////////////////////////
-/// Mock Endpoints To Be Replaced With RESTful API.
-/// - API implementation needs to return data in the format seen below.
-/// - Post data will be in the format seen below.
-/// - /resource/assets/traxAPI.js will have to be updated to align with
-///   the API implementation
-//////////////////////////////////////////////////////////////////////////
-
-// Mock endpoint to get all cars for the logged in user
-
-Route::get('/mock-get-cars', function(Request $request) {
-    return [
-        'data' => [
-            [
-                'id' => 1,
-                'make' => 'Land Rover',
-                'model' => 'Range Rover Sport',
-                'year' => 2017
-            ],
-            [
-                'id' => 2,
-                'make' => 'Ford',
-                'model' => 'F150',
-                'year' => 2014
-            ],
-            [
-                'id' => 3,
-                'make' => 'Chevy',
-                'model' => 'Tahoe',
-                'year' => 2015
-            ],
-            [
-                'id' => 4,
-                'make' => 'Aston Martin',
-                'model' => 'Vanquish',
-                'year' => 2018
-            ]
-        ]
-    ];
-})->middleware('auth:api');
+Route::middleware('auth:api')->group(function(){
+    Route::apiResource('cars', 'CarController');
+    Route::apiResource('trips', 'TripController');
+});
 
 
 // Mock endpoint to add a new car.

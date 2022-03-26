@@ -18,7 +18,7 @@
                     v-model="miles"
                     label="Miles Driven"
                     required
-                    :rules="[v => !!v  || 'Item is required', v => (v && !isNaN(v)) || 'Must be a number']"
+                    :rules="[v => !!v  || 'Item is required', v => (v && !isNaN(v) && v > 0) || 'Must be a positive number',]"
             ></v-text-field>
 
             <v-btn

@@ -20,7 +20,7 @@
                 append-icon="event"
                 :rules="rules"
         ></v-text-field>
-        <v-date-picker v-model="pickerValue" no-title @input="showPicker = false"></v-date-picker>
+        <v-date-picker v-model="pickerValue" no-title @input="showPicker = false" :allowed-dates="allowedDates"></v-date-picker>
     </v-menu>
 </template>
 
@@ -115,7 +115,11 @@
 
         },
         computed: {},
-        methods: {},
+        methods: {
+            allowedDates(value){
+                return Date.parse(value) <= Date.now();
+            }
+        },
         components: {}
     }
 </script>
