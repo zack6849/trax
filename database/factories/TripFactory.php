@@ -4,17 +4,16 @@
 
 use App\Car;
 use App\Trip;
-use App\User;
 use Faker\Generator as Faker;
 
 $factory->define(Trip::class, function (Faker $faker) {
-    $car = Car::query()->inRandomOrder()->firstOrFail();
     $trip_mileage = $faker->randomFloat(1, 0, 150);
-    $oldest_existing_trip = $car->user->trips()->latest('date')->first()->date ?? now()->subYears(2);
+    $random_car = Car::inRandomOrder()->first();
+    $user = $random_car->user;
     return [
-        'car_id' => $car->id,
-        'user_id' => $car->user->id,
-        'date' => $oldest_existing_trip->addDays($faker->numberBetween(1,14))->setTime($faker->numberBetween(1,23),$faker->numberBetween(1,59)),
+        'car_id' => $random_car->id,
+        'user_id' => $user->id,
+        'date' => $faker->date(),
         'miles' => $trip_mileage,
     ];
 });

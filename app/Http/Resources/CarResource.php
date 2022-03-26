@@ -19,8 +19,8 @@ class CarResource extends JsonResource
             'make' => $this->make,
             'model' => $this->model,
             'year' => $this->year,
-            'trip_count' => $this->trips()->count(),
-            'trip_miles' => $this->trips()->sum('miles'),
+            'trip_count' => $this->trips_count,
+            'trip_miles' => $this->trip_miles,
         ];
     }
 }

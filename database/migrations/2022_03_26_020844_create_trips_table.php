@@ -21,6 +21,7 @@ class CreateTripsTable extends Migration
             $table->date('date');
             //considered using unsigned since miles wouldn't be negative (likely), but the chances of needing it for a trip is basically zero
             $table->float('miles');
+            $table->float('total');
             $table->timestamps();
             $table->softDeletes();
         });

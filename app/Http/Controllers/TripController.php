@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Trip\TripCreateRequest;
 use App\Http\Resources\TripResource;
 use App\Trip;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TripController extends Controller
 {
@@ -16,7 +18,7 @@ class TripController extends Controller
      */
     public function index(Request $request)
     {
-        return TripResource::collection($request->user()->trips()->latest('date')->get());
+        return TripResource::collection($request->user()->trips()->with('car.trips')->inOrder()->get());
     }
 
     /**
@@ -32,17 +34,5 @@ class TripController extends Controller
         $trip->user_id = $request->user()->id;
         $trip->save();
         return new TripResource($trip);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Trip  $trip
-     * @return TripResource|\Illuminate\Http\Response
-     */
-    public function show(Trip $trip)
-    {
-        return new TripResource($trip);
-
     }
 }

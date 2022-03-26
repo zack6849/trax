@@ -19,8 +19,16 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::middleware('auth:api')->group(function(){
-    Route::apiResource('cars', 'CarController');
-    Route::apiResource('trips', 'TripController');
+    Route::apiResource('cars', 'CarController')->only([
+        'index',
+        'store',
+        'destroy',
+        'show'
+    ]);
+    Route::apiResource('trips', 'TripController')->only([
+        'store',
+        'index',
+    ]);
 });
 
 

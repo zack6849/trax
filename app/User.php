@@ -65,6 +65,6 @@ class User extends Authenticatable
     }
 
     public function trips(){
-        return $this->hasManyThrough(Trip::class, Car::class);
+        return $this->hasMany(Trip::class);
     }
 }

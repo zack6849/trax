@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Jobs\RecalculateTripTotals;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -34,15 +35,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|Car withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Car withoutTrashed()
  * @mixin \Eloquent
+ * @property float $trip_miles
+ * @method static \Illuminate\Database\Eloquent\Builder|Car whereTripMiles($value)
  */
 class Car extends Model
 {
     use SoftDeletes;
 
+    protected $withCount = [
+        'trips'
+    ];
+
     protected $fillable = [
         'year',
         'make',
-        'model'
+        'model',
+        'trip_miles',
     ];
 
 
@@ -50,11 +58,13 @@ class Car extends Model
     {
         static::deleting(function(Car $car){
             $car->trips()->delete();
+            dispatch(new RecalculateTripTotals($car->user));
         });
 
         static::restored(function(Car $car){
             //restore all trips when it's restored
             Trip::withTrashed()->whereCarId($car->id)->restore();
+            dispatch(new RecalculateTripTotals($car->user));
         });
     }
 

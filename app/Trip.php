@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -34,10 +35,27 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|Trip withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Trip withoutTrashed()
  * @mixin \Eloquent
+ * @property int $user_id
+ * @property float $miles
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereMiles($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereUserId($value)
+ * @property float $total
+ * @method static \Illuminate\Database\Eloquent\Builder|Trip whereTotal($value)
+ * @method static Builder|Trip inOrder()
  */
 class Trip extends Model
 {
     use SoftDeletes;
+
+    public static function booted(){
+        static::creating(function(Trip $trip){
+            $existing_mileage = $trip->user->trips()->sum('miles');
+            $trip->total = bcadd($existing_mileage, $trip->miles, 1);
+            $trip->car->update(['trip_miles' => bcadd($trip->car->trip_miles, $trip->miles, 1)]);
+            \Log::info("Trip being created!");
+        });
+    }
+
 
     protected $dates = [
         'date'
@@ -55,5 +73,9 @@ class Trip extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeInOrder(Builder $query){
+        return $query->orderByDesc('date')->orderByDesc('id');
     }
 }

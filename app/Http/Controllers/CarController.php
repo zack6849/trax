@@ -45,7 +45,8 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
-        return new CarResource($car);
+        $this->authorize('show', $car);
+        return new CarResource($car->loadCount('trips'));
     }
 
 
@@ -57,6 +58,7 @@ class CarController extends Controller
      */
     public function destroy(Request $request, Car $car)
     {
+        $this->authorize('delete', $car);
         $car->delete();
         if($request->expectsJson()){
             return ['message' => 'car deleted'];
