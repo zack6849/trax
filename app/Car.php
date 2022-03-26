@@ -45,6 +45,7 @@ class Car extends Model
         'model'
     ];
 
+
     protected static function booting()
     {
         static::deleting(function(Car $car){
@@ -56,12 +57,6 @@ class Car extends Model
             Trip::withTrashed()->whereCarId($car->id)->restore();
         });
     }
-
-    protected $hidden = [
-        'deleted_at',
-        'created_at',
-        'updated_at'
-    ];
 
     public function user(){
         return $this->belongsTo(User::class);
